@@ -2,7 +2,7 @@
 
 > Summary of the proposed change
 
-Describe the mechanism of integration the CI Integrations component to the GitHub Actions to automatically push the build data.
+Describe the mechanism of integration of the CI Integrations component to the GitHub Actions to automatically push the build data.
 
 # References
 
@@ -14,7 +14,7 @@ Describe the mechanism of integration the CI Integrations component to the GitHu
 
 > What problem is this project solving?
 
-This document describes the organization and structure of the GitHub Actions used in this repository to automatically integrate the data into the Metrics Web application.
+This document describe the organization and structure of the GitHub Actions used in this repository to automatically integrate the data into the Metrics Web application.
 
 # Goals
 
@@ -42,7 +42,7 @@ To be able to track the state of the applications under development, we should c
 To export the data, we should configure the following actions: 
 
 - [`Metrics Integration Actions`](#Metrics-Integration-Actions) - the workflow needed to export the data to the Metrics Web application using the CI Integrations component.
-- [`Notify about the building project`](#Notify-about-building-project) - the job needed to notify the `Metrics Integration Actions` that some project build was started.
+- [`Notify about the building project`](#Notify-about-the-building-project) - the job needed to notify the `Metrics Integration Actions` that some project build was started.
 
 Let's consider each action in more detail.
 
@@ -64,7 +64,7 @@ So, once the `Metrics Integration Actions` workflow receives the `building_proje
 
 __*Please, NOTE*__  that since we are using the [Wait For Check](https://github.com/marketplace/actions/wait-for-check) action that allows us to wait until the job gets finished, we should wait unlit the last workflow job gets finished. Usually, this job is a ` Notify about the building project`. It is needed to be sure that the project's building workflow is finished and we can get the building artifacts from this workflow if there any.
 
-So, let's consider an example of the `Metrics Integrations Actions` job on `Awesome project` example: 
+So, let's consider an example of the `Metrics Integrations Actions` job for some `Awesome project`: 
 
 ```yml
   awesome_project_sync:
@@ -101,11 +101,11 @@ So, let's consider an example of the `Metrics Integrations Actions` job on `Awes
 
 ## Notify about the building project
 
-The `Notify about the building project` step is a step that notifies the `Metrics Integration Actions` about some project's build started. As I've mentioned above, this job should emit a repository dispatch event containing `client_payload` with the data about the current building project. To send the repository dispatch event, we are using the [Repository Dispatch](https://github.com/marketplace/actions/repository-dispatch) action.
+The `Notify about the building project` step notifies the `Metrics Integration Actions` about some project's build started. As I've mentioned above, this job should emit a repository dispatch event containing `client_payload` with the data about the current building project. To send the repository dispatch event, we are using the [Repository Dispatch](https://github.com/marketplace/actions/repository-dispatch) action.
 
-Also, to reduce the about of time taken for the `Metrics Integration Actions` workflow, we should run the `Notify about the building project` job after all jobs in the project building workflow. To do so, this job should depend on all jobs from the current workflow, defining the [needs](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idneeds) key in the configuration file. Moreover, the `Notify about the building project` job should run even if any of the other jobs canceled/failed, so it should include `if: "always()"` line in the configuration file.
+Also, to reduce the about of time taken for the `Metrics Integration Actions` workflow, we should run the `Notify about the building project` job after all jobs in the project building workflow. To do so, this job should depend on all jobs from the current workflow, defining the [needs](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idneeds) key in the configuration file. Moreover, the `Notify about the building project` job should run even if any of the other jobs canceled/failed, so it should include `if: "always()"` option in the configuration file.
 
- So, let's consider the example of the `Notify about the building project` job for `Awesome project` is our repository: 
+ So, let's consider the example of the `Notify about the building project` job for `Awesome project` in our repository: 
 
  Let's assume we have a workflow containing the following jobs: 
 
@@ -140,7 +140,7 @@ As you can see above, the `Notify about building the Awesome project` uses some 
 
 Once we've figured out the workflows and jobs we need to sync the project's builds with the Metrics Web application, let's consider the sequence diagram that will explain the mail relationships between the different workflows on the example with the `AwesomeProject`: 
 
-![GitHub Actions Sequence Diagram]()
+![GitHub Actions Sequence Diagram](http://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/platform-platform/monorepo/github_actions_integration_documentation/docs/diagrams/github_actions_seequence_diagram.puml)
 
 # Dependencies
 
