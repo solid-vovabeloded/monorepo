@@ -35,8 +35,4 @@ class ChromeDriverProcess extends ProcessWrapper {
 
     return ChromeDriverProcess._(process);
   }
-
-  @override
-  Stream<List<int>> get stderrBroadcast =>
-      Stream<List<int>>.empty().asBroadcastStream();
 }
