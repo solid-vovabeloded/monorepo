@@ -28,7 +28,10 @@ class ProcessManager {
     _startedProcesses.add(process);
 
     process.stderrBroadcast.listen(
-      (error) => processErrorHandler?.call(process),
+      (error) {
+        stdout.add(error);
+        // processErrorHandler?.call(process);
+      },
     );
 
     if (logFileName != null) {
