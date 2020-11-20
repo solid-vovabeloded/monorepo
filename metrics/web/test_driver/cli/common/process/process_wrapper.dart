@@ -23,7 +23,8 @@ abstract class ProcessWrapper implements Process {
     _stdoutSubscription = _process.stdout.listen(_stdoutController.add);
     _stdoutBroadcast = _stdoutController.stream.asBroadcastStream();
 
-    _stderrSubscription = _process.stderr.listen(_stderrController.add);
+    _stderrSubscription =
+        _process.stderr.listen((error) => print(String.fromCharCodes(error)));
     _stderrBroadcast = _stderrController.stream.asBroadcastStream();
   }
 
