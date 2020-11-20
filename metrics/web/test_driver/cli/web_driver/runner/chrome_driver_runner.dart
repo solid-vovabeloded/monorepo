@@ -6,7 +6,8 @@ import '../process/chrome_driver_process.dart';
 class ChromeDriverRunner extends WebDriverProcessRunner {
   /// An arguments to run the chrome driver with.
   final ChromeDriverCommand _arguments = ChromeDriverCommand()
-    ..port(WebDriverProcessRunner.port);
+    ..port(WebDriverProcessRunner.port)
+    ..silent();
 
   /// Creates a new instance of the [ChromeDriverRunner].
   ///
