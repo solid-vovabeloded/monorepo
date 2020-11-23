@@ -1,4 +1,5 @@
 import '../../../common/config/browser_name.dart';
+import '../../../common/model/device.dart';
 import '../../common/runner/process_runner.dart';
 import '../command/drive_command.dart';
 import '../command/flutter_command.dart';
@@ -12,6 +13,7 @@ class FlutterDriveProcessRunner implements ProcessRunner {
   final _driveCommand = DriveCommand()
     ..target('test_driver/app.dart')
     ..driver('test_driver/app_test.dart')
+    ..device(Device.chrome)
     ..noKeepAppRunning();
 
   /// Creates the [FlutterDriveProcessRunner].
@@ -27,7 +29,9 @@ class FlutterDriveProcessRunner implements ProcessRunner {
     BrowserName browserName,
     bool verbose = true,
   }) {
-    _driveCommand.useExistingApp('http://localhost:$port/#');
+    _driveCommand
+      ..useExistingApp('http://localhost:$port/#')
+      ..browserName(BrowserName.chrome);
 
     if (verbose) {
       _driveCommand.verbose();

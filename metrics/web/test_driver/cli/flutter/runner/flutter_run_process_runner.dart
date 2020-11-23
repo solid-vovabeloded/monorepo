@@ -8,7 +8,8 @@ import '../process/flutter_process.dart';
 class FlutterRunProcessRunner implements ProcessRunner {
   final RunCommand _arguments = RunCommand()
     ..device(Device.webServer)
-    ..target('test_driver/app.dart');
+    ..target('test_driver/app.dart')
+    ..release();
 
   FlutterProcess _process;
   Future _isAppStarted;
