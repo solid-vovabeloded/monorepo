@@ -143,6 +143,9 @@ Future<void> _login(FlutterDriver driver) async {
   final environment = Platform.environment;
   final credentials = UserCredentials.fromMap(environment);
 
+  print('user email is -- ${credentials.email.split('')}');
+  print('user pa ss wo rd is -- ${credentials.password.split('')}');
+
   await driver.tap(find.byValueKey(AuthStrings.email));
   await driver.enterText(credentials.email);
   await driver.tap(find.byValueKey(AuthStrings.password));
