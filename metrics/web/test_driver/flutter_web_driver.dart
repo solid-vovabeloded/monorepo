@@ -122,7 +122,6 @@ class FlutterWebDriver {
   ) async {
     final driverProcessRunner = FlutterDriveProcessRunner(
       port: port,
-      browserName: _args.browserName,
       verbose: verbose,
       environment: FlutterDriveEnvironment(userCredentials: _args.credentials),
     );

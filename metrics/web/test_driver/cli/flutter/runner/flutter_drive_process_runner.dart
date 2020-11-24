@@ -25,7 +25,6 @@ class FlutterDriveProcessRunner implements ProcessRunner {
   FlutterDriveProcessRunner({
     this.environment,
     int port,
-    BrowserName browserName,
     bool verbose = true,
   }) {
     _driveCommand
