@@ -11,9 +11,8 @@ class FlutterDriveProcessRunner implements ProcessRunner {
   final FlutterDriveEnvironment environment;
 
   final _driveCommand = DriveCommand()
-    ..target('test_driver/app.dart')
     ..driver('test_driver/app_test.dart')
-    ..device(Device.chrome)
+    ..device(Device.webServer)
     ..noKeepAppRunning();
 
   /// Creates the [FlutterDriveProcessRunner].

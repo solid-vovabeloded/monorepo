@@ -9,7 +9,7 @@ class FlutterRunProcessRunner implements ProcessRunner {
   final RunCommand _arguments = RunCommand()
     ..device(Device.webServer)
     ..target('test_driver/app.dart')
-    ..release();
+    ..profile();
 
   FlutterProcess _process;
   Future _isAppStarted;
