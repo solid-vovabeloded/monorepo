@@ -1,0 +1,129 @@
+pipeline {
+    agent {
+        docker {
+            image 'cirrusci/flutter:1.22.0-12.1.pre'
+            args '-p 3000:3000 -d -p 4444:4444 -p 9499:9499 --user root:root --network=host'
+        }
+    }
+    options {
+        timeout(time: 2, unit: 'HOURS')
+    }
+    environment {
+        HOME = '.'
+    }
+    stages {
+        stage('Git clone') {
+            steps {
+                git branch: 'master', url: 'https://github.com/solid-vovabeloded/monorepo.git'
+            }
+        }
+        stage('Checking changed files'){
+            when {
+                not {
+                    anyOf {
+                        changeset "metrics/web/**"
+                        changeset "metrics/core/**"
+                    }
+                }
+            }
+            steps {
+                script {
+                    currentBuild.result = 'ABORTED'
+                }
+                error('No changes in Metrics Web application detected. Exiting...')
+            }
+        }
+        stage('Install Dart') {
+            steps {
+                sh 'sudo apt-get update'
+                sh 'sudo apt -y install gpg-agent'
+                sh 'sudo apt-get install apt-transport-https'
+                sh "sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'"
+                sh "sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'"
+                sh 'sudo apt-get update'
+                sh 'sudo apt-get install dart'
+            }
+        }
+        stage('Install Google Chrome') {
+            steps {
+                sh 'wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb'
+                sh 'sudo apt -y install ./google-chrome-stable_current_amd64.deb'
+                sh 'CHROME_DRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE` && wget -N https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -P ~/'
+                sh 'unzip ~/chromedriver_linux64.zip -d ~/'
+                sh 'rm ~/chromedriver_linux64.zip'
+                sh 'sudo mv -f ~/chromedriver /usr/local/bin/chromedriver'
+                sh 'sudo chown root:root /usr/local/bin/chromedriver'
+                sh 'sudo chmod 0755 /usr/local/bin/chromedriver'
+                sh 'sudo chmod a+x /usr/local/bin/chromedriver'
+            }
+        }
+        stage('Configure Flutter') {
+            steps {
+                dir('metrics/web'){
+                    sh 'flutter config --enable-web'
+                }
+            }
+        }
+        stage('Get Dependencies') {
+            steps {
+                dir('metrics/web'){
+                    sh 'flutter pub get'
+                }
+            }
+        }
+        stage('Run Analyzer') {
+            steps {
+                dir('metrics/web'){
+                    sh 'flutter analyze'
+                }
+            }
+        }
+        stage('Run tests') {
+            steps {
+                dir('metrics/web'){
+                    sh 'flutter test --coverage --coverage-path build/coverage.info'
+                }
+            }
+        }
+        stage('Run driver tests') {
+            steps {
+                dir('metrics/web'){
+                    withCredentials([usernamePassword(credentialsId: 'app_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'EMAIL')]) {
+                        sh 'dart test_driver/main.dart --verbose --store-logs-to=build/logs --email=$EMAIL --password=$PASSWORD --no-verbose'
+                    }
+                }
+            }
+        }
+        stage('Download coverage tool') {
+            steps {
+                dir('metrics/web'){
+                    sh 'curl -o coverage_converter -k https://github.com/platform-platform/monorepo/releases/download/coverage-converter-snapshot/coverage_converter_linux -L'
+                    sh 'chmod a+x coverage_converter'
+                }
+            }
+        }
+        stage('Convert coverage report') {
+            steps {
+                dir('metrics/web'){
+                    sh './coverage_converter lcov -i build/coverage.info -o coverage-summary.json'
+                }
+            }
+            post {
+              always {
+                    archiveArtifacts artifacts: 'metrics/web/coverage-summary.json', fingerprint: true
+              }
+            }
+        }
+    }
+    post {
+        always {
+            sh 'sudo rm -r metrics'
+            cleanWs cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, deleteDirs: true, notFailBuild: true
+            script {
+                if (currentBuild.result != 'ABORTED'){
+                    build job: 'Import Build Data', propagate: false, wait: false, parameters: [booleanParam(name: 'WEB', value: true)]
+                }
+            }
+        }
+    }
+}
