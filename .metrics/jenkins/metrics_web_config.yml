@@ -1,6 +1,6 @@
 source:
   jenkins:
-    url: https://jenkins.gogoapps.dev/
+    url: $JENKINS_URL
     job_name: Metrics Web
     username: vova.beloded@solid.software
     api_key: $JENKINS_API_KEY
