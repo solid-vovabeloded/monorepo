@@ -35,7 +35,7 @@ jobs:
           version: 2.10.0-110.5.beta
 
       - name: Configure Flutter
-        run: flutter config --enable-web && flutter doctor
+        run: exit(1) && flutter config --enable-web && flutter doctor
         working-directory: metrics/web/
 
       - name: Get dependencies
