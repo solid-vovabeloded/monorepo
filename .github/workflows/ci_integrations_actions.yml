@@ -151,7 +151,7 @@ jobs:
           asset_content_type: application/octet-stream
 
   notify-actions:
-    name: Notify about building the CI integrations
+    name: Notify about building finished
     runs-on: macos-latest
     needs: [ ci-integrations-publish-actions ]
     if: "always()"
@@ -163,3 +163,11 @@ jobs:
           repository: platform-platform/monorepo
           event-type: building_project
           client-payload: '{"building_ci_integrations": "true"}'
+      - name: Send notification to Slack
+        if: needs.ci-integrations-publish-actions.result == 'failure'
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.ACTIONS_TOKEN }}
+          repository: solid-vovabeloded/monorepo
+          event-type: send_slack_notification
+          client-payload: '{"workflow_name": "${{ github.workflow }}", "run_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
