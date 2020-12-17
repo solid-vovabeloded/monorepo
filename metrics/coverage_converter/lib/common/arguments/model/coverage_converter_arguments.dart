@@ -8,7 +8,7 @@ class CoverageConverterArguments {
 
   /// Creates a [CoverageConverterArguments].
   ///
-  /// The [inputFilePath] and the [outputFilePath] must not be null.
+  /// The [inputFilePath] and the [outputFilePath] must not be null...
   CoverageConverterArguments({
     this.inputFilePath,
     this.outputFilePath,
