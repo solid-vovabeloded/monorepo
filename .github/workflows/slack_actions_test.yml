@@ -21,5 +21,5 @@ jobs:
       - name: Send Notification
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_CUSTOM_PAYLOAD: '{"text": {"type": "mrkdwn", "text": "A `test message` with a markdown from a fork <https://github.com/solid-vovabeloded/monorepo/actions/runs/427896116|repository>"}}'
+          SLACK_CUSTOM_PAYLOAD: '{"type": "mrkdwn", "text": "A `test message` with a markdown from a fork <https://github.com/solid-vovabeloded/monorepo/actions/runs/427896116|repository>"}'
         uses: Ilshidur/action-slack@2.0.2
