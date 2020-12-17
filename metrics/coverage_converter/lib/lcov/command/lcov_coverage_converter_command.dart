@@ -19,7 +19,7 @@ class LcovCoverageConverterCommand extends CoverageConverterCommand {
       LcovCoverageConverter();
 
   /// Creates a new instance of the [LcovCoverageConverterCommand]
-  /// with the given [argumentsParser]..
+  /// with the given [argumentsParser].
   ///
   /// If the [argumentsParser] is null,
   /// the [CoverageConverterArgumentsParser] is used.
