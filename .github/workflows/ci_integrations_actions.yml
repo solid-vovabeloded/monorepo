@@ -153,7 +153,7 @@ jobs:
   notify-actions:
     name: Notify about building finished
     runs-on: macos-latest
-    needs: [ ci-integrations-publish-actions ]
+    needs: [ ci-integrations-publish-actions, ci-integrations-actions, ci-integrations-build-actions ]
     if: "always()"
     steps:
       - name: Notify about building the CI integrations
@@ -164,7 +164,7 @@ jobs:
           event-type: building_project
           client-payload: '{"building_ci_integrations": "true"}'
       - name: Send notification to Slack
-        if: needs.ci-integrations-publish-actions.result == 'failure'
+        if: needs.ci-integrations-publish-actions.result == 'failure' || needs.ci-integrations-actions.result == 'failure' || needs.ci-integrations-build-actions.result == 'failure'
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
