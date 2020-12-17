@@ -14,6 +14,6 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_CUSTOM_PAYLOAD: '{
                                     "type":"mrkdwn",
-                                    "text":"Oops! The ${{ github.event.client_payload.workflow_name }} run failed. See details <${{ github.event.client_payload.run_url }}|here>"
+                                    "text":"Oops! The `${{ github.event.client_payload.workflow_name }}` run failed. See details <${{ github.event.client_payload.run_url }}|here>"
                                  }'
         uses: Ilshidur/action-slack@2.0.2
