@@ -3,7 +3,7 @@ import 'package:ci_integration/cli/logger/logger.dart';
 
 /// An abstract class representing a single CLI [Command].
 abstract class CiIntegrationCommand<T> extends Command<T> {
-  /// The [Logger] this command should use for messages and errors.
+  /// The [Logger] this command should use for messages and errors..
   final Logger logger;
 
   /// Creates an instance of this command.
