@@ -109,13 +109,13 @@ jobs:
           name: ci_integrations_linux
           path: metrics/ci_integrations/
 
-      - name: Delete Old Release
-        uses: dev-drprasad/delete-tag-and-release@v0.1.2
-        with:
-          delete_release: true
-          tag_name: ci_integrations-snapshot
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Delete Old Release
+#        uses: dev-drprasad/delete-tag-and-release@v0.1.2
+#        with:
+#          delete_release: true
+#          tag_name: ci_integrations-snapshot
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
         id: create_release
