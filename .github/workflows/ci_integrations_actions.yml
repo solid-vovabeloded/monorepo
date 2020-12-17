@@ -160,11 +160,11 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
-          repository: platform-platform/monorepo
+          repository: solid-vovabeloded/monorepo
           event-type: building_project
           client-payload: '{"building_ci_integrations": "true"}'
       - name: Send notification to Slack
-        if: needs.ci-integrations-publish-actions.result == 'failure' || needs.ci-integrations-actions.result == 'failure' || needs.ci-integrations-build-actions.result == 'failure'
+        if: needs.ci-integrations-publish-actions.result == 'failure' || needs.ci-integrations-actions.result == 'failure' || needs.ci-integrations-build-actions.result == 'failure' || needs.ci-integrations-publish-actions.result == 'cancelled' || needs.ci-integrations-actions.result == 'cancelled' || needs.ci-integrations-build-actions.result == 'cancelled'
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
