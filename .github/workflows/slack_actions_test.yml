@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build something
-        run: echo Building...
+        run: exit(1)
 
   notify-slack:
     name: Send Slack Notification
