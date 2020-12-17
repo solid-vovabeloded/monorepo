@@ -1,0 +1,22 @@
+name: Slack Action Tests
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build-something:
+    name: Build some project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build something
+        run: echo Building...
+
+  notify-slack:
+    name: Send Slack Notification
+    runs-on: ubuntu-latest
+    needs: build-something
+    if: needs.build-something.result == "failure"
+    steps:
+      - name: Send Notification
+        run: echo "sending slack notification ..."
