@@ -19,7 +19,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Send notification to Slack
-        if: ${{ failure() }}
+        if: ${{ needs.build-something.reslut }} == `failure`
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
