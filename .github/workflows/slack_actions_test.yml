@@ -24,4 +24,4 @@ jobs:
           token: ${{ secrets.ACTIONS_TOKEN }}
           repository: solid-vovabeloded/monorepo
           event-type: send_slack_notification
-          client-payload: '{"workflow_name": "${{ GITHUB_WORKFLOW }}", "run_url": "https://github.com/${{ GITHUB_REPOSITORY }}/actions/runs/${{ GITHUB_RUN_ID }}"}'
+          client-payload: '{"workflow_name": "${{ github.workflow }}", "run_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
