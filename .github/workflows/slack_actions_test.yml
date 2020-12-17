@@ -19,4 +19,8 @@ jobs:
     if: ${{ failure() }}
     steps:
       - name: Send Notification
-        run: echo "sending slack notification ..."
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        uses: Ilshidur/action-slack@2.0.2
+        with:
+          args: 'A test message from the fork repository' # Optional
