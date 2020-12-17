@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-/// A class that represents the raw integration configuration.
+/// A class that represents the raw integration configuration...
 ///
 /// Used to define both source and destination configuration maps.
 class RawIntegrationConfig extends Equatable {
