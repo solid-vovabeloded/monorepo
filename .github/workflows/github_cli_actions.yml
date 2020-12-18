@@ -16,10 +16,14 @@ jobs:
           sudo apt-add-repository https://cli.github.com/packages
           sudo apt update
           sudo apt install gh
-      - name: Configure CLI
+      - name: Configure GitHub CLI
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "$TOKEN" > token.txt
           gh config set prompt disabled
           gh auth login --with-token < token.txt
+      - name: Delete release
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete ci_integrations-snapshot -y
