@@ -40,7 +40,7 @@ jobs:
   coverage_converter_sync:
     name: Coverage Converter build data sync
     runs-on: macos-latest
-    if: github.event.client_payload.building_coverage_converter == 'true'
+    if: false
     steps:
       - name: Checkout
         uses: actions/checkout@v2
