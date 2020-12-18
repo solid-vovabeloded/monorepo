@@ -21,4 +21,4 @@ jobs:
       - name: Disable prompt
         run: gh config set prompt disabled
       - name: Login to Github
-        run: gh auth login --with-token < token.txt
+        run: gh auth login --with-token
