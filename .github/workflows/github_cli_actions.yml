@@ -29,8 +29,11 @@ jobs:
           gh config set prompt disabled
           gh auth login --with-token < token.txt
       - name: Delete release
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release delete ci_integrations-snapshot -y
           git push --delete origin ci_integrations-snapshot
+      - name: Create release
+        run: |
+          echo "release file" > release_file
+          echo "release file" > release_file1
+          gh release create ci_integrations-snapshot 'release_file,release_file1#CI Integrations snapshot' --prerelease
