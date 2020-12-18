@@ -51,23 +51,23 @@ jobs:
         run: |
           curl -o ci_integrations -k https://github.com/platform-platform/monorepo/releases/download/ci_integrations-snapshot/ci_integrations_macos -L
           chmod a+x ci_integrations
-#      - name: Wait For Coverage Converter check finished
-#        uses: fountainhead/action-wait-for-check@v1.0.0
-#        with:
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          checkName: Notify about building finished
-#          ref: ${{ github.sha }}
-#          timeoutSeconds: 3600
-#      - name: Apply environment variables
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          WEB_APP_USER_EMAIL: ${{ secrets.WEB_APP_USER_EMAIL }}
-#          WEB_APP_USER_PASSWORD: ${{ secrets.WEB_APP_USER_PASSWORD }}
-#          CI_INTEGRATIONS_FIREBASE_API_KEY: ${{ secrets.CI_INTEGRATIONS_FIREBASE_API_KEY }}
-#        run: eval "echo \"$(sed 's/"/\\"/g' coverage_converter_config.yml)\"" >> integration.yml
-#        working-directory: .metrics/
-#      - name: Coverage Converter build data sync
-#        run: ./ci_integrations sync --config-file .metrics/integration.yml
+      - name: Wait For Coverage Converter check finished
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Notify about building finished
+          ref: ${{ github.sha }}
+          timeoutSeconds: 3600
+      - name: Apply environment variables
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WEB_APP_USER_EMAIL: ${{ secrets.WEB_APP_USER_EMAIL }}
+          WEB_APP_USER_PASSWORD: ${{ secrets.WEB_APP_USER_PASSWORD }}
+          CI_INTEGRATIONS_FIREBASE_API_KEY: ${{ secrets.CI_INTEGRATIONS_FIREBASE_API_KEY }}
+        run: eval "echo \"$(sed 's/"/\\"/g' coverage_converter_config.yml)\"" >> integration.yml
+        working-directory: .metrics/
+      - name: Coverage Converter build data sync
+        run: ./ci_integrations sync --config-file .metrics/integration.yml
 
   metrics_web_sync:
     name: Metrics Web build data sync
