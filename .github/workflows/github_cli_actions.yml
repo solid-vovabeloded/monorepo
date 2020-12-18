@@ -37,4 +37,4 @@ jobs:
           mkdir release
           echo "release file" > release/release_file
           echo "release file" > release/release_file1
-          gh release create ci_integrations-snapshot 'release/*#CI Integrations snapshot' --prerelease
+          gh release create ci_integrations-snapshot release/release_file release/release_file1 --prerelease --title 'CI Integrations snapshot'
