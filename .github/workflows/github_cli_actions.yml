@@ -34,6 +34,6 @@ jobs:
           git push --delete origin ci_integrations-snapshot
       - name: Create release
         run: |
-          echo "release file" > release_file
-          echo "release file" > release_file1
-          gh release create ci_integrations-snapshot 'release_file,release_file1#CI Integrations snapshot' --prerelease
+          echo "release file" > release/release_file
+          echo "release file" > release/release_file1
+          gh release create ci_integrations-snapshot 'release/*#CI Integrations snapshot' --prerelease
