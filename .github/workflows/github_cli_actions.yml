@@ -19,4 +19,5 @@ jobs:
       - name: Configure CLI
         run: |
           echo "$GITHUB_TOKEN" > token.txt
+          gh config set prompt disabled
           gh auth login --with-token < token.txt
