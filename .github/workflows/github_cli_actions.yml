@@ -18,5 +18,7 @@ jobs:
           sudo apt install gh
       - name: Configure CLI
         run: echo "$GITHUB_TOKEN" > token.txt
-      - name: Configure github
-        run: gh config set prompt disabled && gh auth login --with-token < token.txt
+      - name: Disable prompt
+        run: gh config set prompt disabled
+      - name: Login to Github
+        run: gh auth login --with-token < token.txt
