@@ -18,8 +18,8 @@ jobs:
           sudo apt install gh
       - name: Configure CLI
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "$GITHUB_TOKEN" > token.txt
+          echo "$TOKEN" > token.txt
           gh config set prompt disabled
           gh auth login --with-token
