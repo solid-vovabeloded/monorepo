@@ -31,4 +31,6 @@ jobs:
       - name: Delete release
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release delete ci_integrations-snapshot -y
+        run: |
+          gh release delete ci_integrations-snapshot -y
+          git push --delete origin ci_integrations-snapshot
