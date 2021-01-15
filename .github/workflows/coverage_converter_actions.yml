@@ -3,9 +3,7 @@ name: Coverage Converter Actions
 on:
   push:
     branches: master
-    paths:
-      - metrics/coverage_converter/**
-      - metrics/core/**
+
 
 jobs:
   macos-actions:
